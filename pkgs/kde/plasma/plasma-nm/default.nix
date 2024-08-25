@@ -20,6 +20,7 @@ mkKdeDerivation {
       src = ./0003-strongswan-binary-path.patch;
       inherit strongswan;
     })
+    ./0004-save-crash.patch
   ];
 
   extraNativeBuildInputs = [pkg-config];
