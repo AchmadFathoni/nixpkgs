@@ -6472,8 +6472,6 @@ with pkgs;
 
   bumpver = callPackage ../applications/version-management/bumpver { };
 
-  bup = callPackage ../tools/backup/bup { };
-
   bupstash = darwin.apple_sdk_11_0.callPackage ../tools/backup/bupstash { };
 
   burp = callPackage ../tools/backup/burp { };
@@ -12226,8 +12224,6 @@ with pkgs;
   qpdf = callPackage ../development/libraries/qpdf { };
 
   qprint = callPackage ../tools/text/qprint { };
-
-  qrcp = callPackage ../tools/networking/qrcp { };
 
   qrscan = callPackage ../tools/misc/qrscan { };
 
@@ -20107,7 +20103,7 @@ with pkgs;
 
   # TODO(@Ericson2314): Build bionic libc from source
   bionic = if stdenv.hostPlatform.useAndroidPrebuilt
-    then pkgs."androidndkPkgs_${stdenv.hostPlatform.androidNdkVer}".libraries
+    then pkgs."androidndkPkgs_${stdenv.hostPlatform.androidNdkVersion}".libraries
     else callPackage ../os-specific/linux/bionic-prebuilt { };
 
   boolstuff = callPackage ../development/libraries/boolstuff { };
@@ -32029,14 +32025,12 @@ with pkgs;
 
   jwm-settings-manager = callPackage ../applications/window-managers/jwm/jwm-settings-manager.nix { };
 
-  inherit (callPackage ../applications/networking/cluster/k3s {
-    buildGoModule = buildGo121Module;
-    go = go_1_21;
-  }) k3s_1_27 k3s_1_28 k3s_1_29;
-  inherit (callPackage ../applications/networking/cluster/k3s {
-    buildGoModule = buildGo122Module;
-    go = go_1_22;
-  }) k3s_1_30;
+  inherit (callPackage ../applications/networking/cluster/k3s { })
+    k3s_1_28
+    k3s_1_29
+    k3s_1_30
+    k3s_1_31
+    ;
   k3s = k3s_1_30;
 
   k3sup = callPackage ../applications/networking/cluster/k3sup { };
@@ -33003,7 +32997,7 @@ with pkgs;
     autoreconfHook = buildPackages.autoreconfHook269;
   };
 
-  musescore = libsForQt5.callPackage ../applications/audio/musescore { };
+  musescore = qt6Packages.callPackage ../applications/audio/musescore { };
 
   music-player = callPackage ../applications/audio/music-player { };
 
@@ -36058,7 +36052,7 @@ with pkgs;
   lndmanage = callPackage ../applications/blockchains/lndmanage { };
 
   monero-cli = callPackage ../applications/blockchains/monero-cli {
-    inherit (darwin.apple_sdk.frameworks) CoreData IOKit PCSC;
+    inherit (darwin.apple_sdk.frameworks) CoreData IOKit;
   };
 
   haven-cli = callPackage ../applications/blockchains/haven-cli {
@@ -37071,12 +37065,6 @@ with pkgs;
   planetary_annihilation = callPackage ../games/planetaryannihilation { };
 
   principia = callPackage ../games/principia { };
-
-  prismlauncher-unwrapped = kdePackages.callPackage ../games/prismlauncher {
-    inherit (darwin.apple_sdk.frameworks) Cocoa;
-  };
-
-  prismlauncher = kdePackages.callPackage ../games/prismlauncher/wrapper.nix { };
 
   pong3d = callPackage ../games/pong3d { };
 

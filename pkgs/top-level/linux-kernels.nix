@@ -356,7 +356,10 @@ in {
 
     intel-speed-select = if lib.versionAtLeast kernel.version "5.3" then callPackage ../os-specific/linux/intel-speed-select { } else null;
 
-    ipu6-drivers = callPackage ../os-specific/linux/ipu6-drivers {};
+    ipu6-drivers =
+      if kernelOlder "6.10"
+      then callPackage ../os-specific/linux/ipu6-drivers {}
+      else null;
 
     ivsc-driver = callPackage ../os-specific/linux/ivsc-driver {};
 
@@ -406,6 +409,7 @@ in {
     nvidia_x11_legacy340   = nvidiaPackages.legacy_340;
     nvidia_x11_legacy390   = nvidiaPackages.legacy_390;
     nvidia_x11_legacy470   = nvidiaPackages.legacy_470;
+    nvidia_x11_legacy535   = nvidiaPackages.legacy_535;
     nvidia_x11_production  = nvidiaPackages.production;
     nvidia_x11_vulkan_beta = nvidiaPackages.vulkan_beta;
     nvidia_dc              = nvidiaPackages.dc;
