@@ -1,0 +1,26 @@
+diff --git a/vpn/l2tp/l2tpipsecwidget.cpp b/vpn/l2tp/l2tpipsecwidget.cpp
+index 4d8c708..487c329 100644
+--- a/vpn/l2tp/l2tpipsecwidget.cpp
++++ b/vpn/l2tp/l2tpipsecwidget.cpp
+@@ -10,6 +10,7 @@
+ #include "ui_l2tpipsec.h"
+ #include <QProcess>
+ #include <QStandardPaths>
++#include <QTimer>
+ 
+ #include <KAcceleratorManager>
+ #include <KLocalizedString>
+@@ -321,8 +322,11 @@ void L2tpIpsecWidget::resizeStackedWidget(int currentIndex)
+         }
+         m_ui->stackedWidget->widget(i)->setSizePolicy(QSizePolicy::Preferred, policy);
+     }
+-    QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+-    resize(width(), sizeHint().height());
++
++    // it takes an event loop iteration before setSizePolicy results in sizeHint being updated
++    QTimer::singleShot(0, this, [this] {
++        resize(width(), sizeHint().height());
++    });
+ }
+ 
+ L2tpIpsecWidget::IpsecDaemonType L2tpIpsecWidget::m_ipsecDaemonType = IpsecDaemonType::NoIpsecDaemon;
