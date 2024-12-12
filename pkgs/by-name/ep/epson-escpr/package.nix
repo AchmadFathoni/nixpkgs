@@ -4,7 +4,7 @@ let
   fullname = "epson-inkjet-printer-escpr";
 in stdenv.mkDerivation rec {
   pname = "epson-escpr";
-  version = "1.8.5";
+  version = "1.8.6";
 
   src = fetchurl {
     # To find new versions, visit
@@ -13,10 +13,10 @@ in stdenv.mkDerivation rec {
     # version.
     # NOTE: Don't forget to update the webarchive link too!
     urls = [
-      "https://download3.ebz.epson.net/dsc/f/03/00/15/68/85/403b320df777490a52c42030397edd10363b2c56/${fullname}-1.8.5-1.src.rpm"
-      "https://web.archive.org/web/20241109053348/https://download3.ebz.epson.net/dsc/f/03/00/15/68/85/403b320df777490a52c42030397edd10363b2c56/${fullname}-1.8.5-1.src.rpm"
+      "https://download3.ebz.epson.net/dsc/f/03/00/16/21/79/6d53e6ec3f8c1e55733eb7860e992a425883bf88/epson-inkjet-printer-escpr-1.8.6-1.src.rpm"
+      "https://web.archive.org/web/20241201010807/https://download3.ebz.epson.net/dsc/f/03/00/16/21/79/6d53e6ec3f8c1e55733eb7860e992a425883bf88/epson-inkjet-printer-escpr-1.8.6-1.src.rpm"
     ];
-    sha256 = "1m2061mqlsrgq5ykjg6m0s2708g727xckk0kxwh64dk15n8ki1lx";
+    sha256 = "sha256-s419162FmZjtlCtAQPR+AOX2IqvMuCX+IheGyfeI0Lk=";
   };
 
   patches = [ ./cups-filter-ppd-dirs.patch ];
