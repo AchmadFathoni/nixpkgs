@@ -1070,6 +1070,8 @@ let
 
     mec = callPackage ../development/ocaml-modules/mec { };
 
+    melange = callPackage ../development/tools/ocaml/melange { };
+
     memprof-limits = callPackage ../development/ocaml-modules/memprof-limits { };
 
     memtrace = callPackage ../development/ocaml-modules/memtrace { };
@@ -1152,6 +1154,8 @@ let
     mirage-crypto-rng = callPackage ../development/ocaml-modules/mirage-crypto/rng.nix { };
 
     mirage-crypto-rng-async = callPackage ../development/ocaml-modules/mirage-crypto/rng-async.nix { };
+
+    mirage-crypto-rng-eio = callPackage ../development/ocaml-modules/mirage-crypto/rng-eio.nix { };
 
     mirage-crypto-rng-lwt = callPackage ../development/ocaml-modules/mirage-crypto/rng-lwt.nix { };
 
@@ -1649,6 +1653,10 @@ let
 
     reason-native = lib.recurseIntoAttrs (callPackage ../development/ocaml-modules/reason-native { });
 
+    reason-react = callPackage ../development/ocaml-modules/reason-react { };
+
+    reason-react-ppx = callPackage ../development/ocaml-modules/reason-react/ppx.nix { };
+
     rebez = callPackage ../development/ocaml-modules/rebez { };
 
     reperf = callPackage ../development/ocaml-modules/reperf { };
@@ -1835,6 +1843,8 @@ let
     tls = callPackage ../development/ocaml-modules/tls { };
 
     tls-async = callPackage ../development/ocaml-modules/tls/async.nix { };
+
+    tls-eio = callPackage ../development/ocaml-modules/tls/eio.nix { };
 
     tls-lwt = callPackage ../development/ocaml-modules/tls/lwt.nix { };
 

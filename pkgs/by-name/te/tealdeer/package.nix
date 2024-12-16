@@ -1,9 +1,10 @@
-{ lib
-, stdenv
-, rustPlatform
-, fetchFromGitHub
-, installShellFiles
-, Security
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  installShellFiles,
+  apple-sdk_11,
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -19,7 +20,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoHash = "sha256-WCbpwvCXm54/Cv+TscaqseWzTUd8V1DxmS30fUZZTwI=";
 
-  buildInputs = lib.optional stdenv.hostPlatform.isDarwin Security;
+  buildInputs = lib.optional stdenv.hostPlatform.isDarwin apple-sdk_11;
 
   nativeBuildInputs = [ installShellFiles ];
 
@@ -45,8 +46,15 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Very fast implementation of tldr in Rust";
     homepage = "https://github.com/dbrgn/tealdeer";
-    maintainers = with maintainers; [ davidak newam mfrw ];
-    license = with licenses; [ asl20 mit ];
+    maintainers = with maintainers; [
+      davidak
+      newam
+      mfrw
+    ];
+    license = with licenses; [
+      asl20
+      mit
+    ];
     mainProgram = "tldr";
   };
 }
