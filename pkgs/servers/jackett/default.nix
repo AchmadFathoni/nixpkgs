@@ -1,11 +1,12 @@
-{ lib
-, stdenv
-, buildDotnetModule
-, fetchFromGitHub
-, dotnetCorePackages
-, openssl
-, mono
-, nixosTests
+{
+  lib,
+  stdenv,
+  buildDotnetModule,
+  fetchFromGitHub,
+  dotnetCorePackages,
+  openssl,
+  mono,
+  nixosTests,
 }:
 
 buildDotnetModule rec {
@@ -20,7 +21,7 @@ buildDotnetModule rec {
   };
 
   projectFile = "src/Jackett.Server/Jackett.Server.csproj";
-  nugetDeps = ./deps.nix;
+  nugetDeps = ./deps.json;
 
   dotnet-runtime = dotnetCorePackages.aspnetcore_8_0;
   dotnet-sdk = dotnetCorePackages.sdk_8_0;
@@ -48,6 +49,10 @@ buildDotnetModule rec {
     homepage = "https://github.com/Jackett/Jackett/";
     changelog = "https://github.com/Jackett/Jackett/releases/tag/v${version}";
     license = licenses.gpl2Only;
-    maintainers = with maintainers; [ edwtjo nyanloutre purcell ];
+    maintainers = with maintainers; [
+      edwtjo
+      nyanloutre
+      purcell
+    ];
   };
 }

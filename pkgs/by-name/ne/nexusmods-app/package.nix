@@ -8,6 +8,7 @@
   fetchFromGitHub,
   imagemagick,
   lib,
+  makeFontsConf,
   runCommand,
   xdg-utils,
   pname ? "nexusmods-app",
@@ -56,7 +57,7 @@ buildDotnetModule (finalAttrs: {
     imagemagick # For resizing SVG icon in postInstall
   ];
 
-  nugetDeps = ./deps.nix;
+  nugetDeps = ./deps.json;
   mapNuGetDependencies = true;
 
   dotnet-sdk = dotnetCorePackages.sdk_8_0;
@@ -140,10 +141,22 @@ buildDotnetModule (finalAttrs: {
       let
         runTest =
           name: script:
-          runCommand "${pname}-test-${name}" { nativeBuildInputs = [ finalAttrs.finalPackage ]; } ''
-            ${script}
-            touch $out
-          '';
+          runCommand "${pname}-test-${name}"
+            {
+              nativeBuildInputs = [ finalAttrs.finalPackage ];
+              FONTCONFIG_FILE = makeFontsConf {
+                fontDirectories = [ ];
+              };
+            }
+            ''
+              export XDG_DATA_HOME="$PWD/data"
+              export XDG_STATE_HOME="$PWD/state"
+              export XDG_CACHE_HOME="$PWD/cache"
+              mkdir -p "$XDG_DATA_HOME" "$XDG_STATE_HOME" "$XDG_CACHE_HOME"
+              # TODO: on error, print $XDG_STATE_HOME/NexusMods.App/Logs/nexusmods.app.main.current.log
+              ${script}
+              touch $out
+            '';
       in
       {
         serve = runTest "serve" ''

@@ -151,6 +151,8 @@ self: super: with self; {
 
   aio-pika = callPackage ../development/python-modules/aio-pika { };
 
+  aioairctrl = callPackage ../development/python-modules/aioairctrl { };
+
   aioairzone = callPackage ../development/python-modules/aioairzone { };
 
   aioairzone-cloud = callPackage ../development/python-modules/aioairzone-cloud { };
@@ -2044,6 +2046,8 @@ self: super: with self; {
   capturer = callPackage ../development/python-modules/capturer { };
 
   carbon = callPackage ../development/python-modules/carbon { };
+
+  cardimpose = callPackage ../development/python-modules/cardimpose { };
 
   cart = callPackage ../development/python-modules/cart { };
 
@@ -5788,6 +5792,8 @@ self: super: with self; {
   highdicom = callPackage ../development/python-modules/highdicom { };
 
   highspy = callPackage ../development/python-modules/highspy { };
+
+  hightime = callPackage ../development/python-modules/hightime { };
 
   hid = callPackage ../development/python-modules/hid {
     inherit (pkgs) hidapi;

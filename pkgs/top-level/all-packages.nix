@@ -1680,10 +1680,6 @@ with pkgs;
   inherit (callPackages ../data/fonts/arphic {})
     arphic-ukai arphic-uming;
 
-  asciinema-agg = callPackage ../tools/misc/asciinema-agg {
-    inherit (darwin.apple_sdk.frameworks) Security;
-  };
-
   asymptote = libsForQt5.callPackage ../tools/graphics/asymptote { };
 
   atomicparsley = callPackage ../tools/video/atomicparsley {
@@ -2330,17 +2326,7 @@ with pkgs;
 
   electronplayer = callPackage ../applications/video/electronplayer/electronplayer.nix { };
 
-  element-desktop = callPackage ../applications/networking/instant-messengers/element/element-desktop.nix {
-    inherit (darwin.apple_sdk.frameworks) Security AppKit CoreServices;
-  };
-  element-desktop-wayland = writeScriptBin "element-desktop" ''
-    #!/bin/sh
-    NIXOS_OZONE_WL=1 exec ${element-desktop}/bin/element-desktop "$@"
-  '';
-
-  element-web-unwrapped = callPackage ../applications/networking/instant-messengers/element/element-web.nix { };
-
-  element-web = callPackage ../applications/networking/instant-messengers/element/element-web-wrapper.nix {
+  element-web = callPackage ../by-name/el/element-web/package.nix {
     conf = config.element-web.conf or { };
   };
 
@@ -4834,6 +4820,8 @@ with pkgs;
   pagefind = libsForQt5.callPackage ../applications/misc/pagefind { };
 
   pakcs = callPackage ../development/compilers/pakcs { };
+
+  pandoc_3_5 = callPackage ../by-name/pa/pandoc/package.nix { selectPandocCLI = (p: p.pandoc-cli_3_5); };
 
   paperwork = callPackage ../applications/office/paperwork/paperwork-gtk.nix { };
 
@@ -11776,6 +11764,19 @@ with pkgs;
 
   jitsi-videobridge = callPackage ../servers/jitsi-videobridge { };
 
+  kanidm_1_3 = callPackage ../by-name/ka/kanidm/1_3.nix { };
+  kanidm_1_4 = callPackage ../by-name/ka/kanidm/1_4.nix { };
+
+  kanidmWithSecretProvisioning = kanidmWithSecretProvisioning_1_4;
+
+  kanidmWithSecretProvisioning_1_3 = callPackage ../by-name/ka/kanidm/1_3.nix {
+    enableSecretProvisioning = true;
+  };
+
+  kanidmWithSecretProvisioning_1_4 = callPackage ../by-name/ka/kanidm/1_4.nix {
+    enableSecretProvisioning = true;
+  };
+
   knot-resolver = callPackage ../servers/dns/knot-resolver {
     systemd = systemdMinimal; # in closure already anyway
   };
@@ -12580,6 +12581,8 @@ with pkgs;
   linux_6_6_hardened = linuxKernel.kernels.linux_6_6_hardened;
   linuxPackages_6_11_hardened = linuxKernel.packages.linux_6_11_hardened;
   linux_6_11_hardened = linuxKernel.kernels.linux_6_11_hardened;
+  linuxPackages_6_12_hardened = linuxKernel.packages.linux_6_12_hardened;
+  linux_6_12_hardened = linuxKernel.kernels.linux_6_12_hardened;
 
   # GNU Linux-libre kernels
   linuxPackages-libre = linuxKernel.packages.linux_libre;
@@ -13633,7 +13636,6 @@ with pkgs;
   };
   datadog-process-agent = callPackage ../tools/networking/dd-agent/datadog-process-agent.nix { };
   datadog-integrations-core = extras: callPackage ../tools/networking/dd-agent/integrations-core.nix {
-    python = python3;
     extraIntegrations = extras;
   };
 
@@ -14369,8 +14371,6 @@ with pkgs;
     apptainer-overriden-nixos
     singularity-overriden-nixos
     ;
-
-  slack = callPackage ../applications/networking/instant-messengers/slack { };
 
   sosreport = python3Packages.callPackage ../applications/logging/sosreport { };
 
@@ -15283,8 +15283,6 @@ with pkgs;
   opentimestamps-client = python3Packages.callPackage ../tools/misc/opentimestamps-client { };
 
   opentoonz = libsForQt5.callPackage ../applications/graphics/opentoonz { };
-
-  opentabletdriver = callPackage ../tools/X11/opentabletdriver { };
 
   opentx = libsForQt5.callPackage ../applications/misc/opentx { };
 
@@ -16578,10 +16576,6 @@ with pkgs;
     protobuf = protobuf_21;
     withGui = false;
   };
-
-  btcpayserver = callPackage ../applications/blockchains/btcpayserver { };
-
-  btcpayserver-altcoins = callPackage ../applications/blockchains/btcpayserver { altcoinSupport = true; };
 
   cryptop = python3.pkgs.callPackage ../applications/blockchains/cryptop { };
 
@@ -18982,9 +18976,7 @@ with pkgs;
 
   compressDrvWeb = callPackage ../build-support/compress-drv/web.nix { };
 
-  duti = callPackage ../os-specific/darwin/duti {
-    inherit (darwin.apple_sdk.frameworks) ApplicationServices;
-  };
+  duti = callPackage ../os-specific/darwin/duti { };
 
   dnstracer = callPackage ../tools/networking/dnstracer {
     inherit (darwin) libresolv;
