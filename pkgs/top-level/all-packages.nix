@@ -1680,10 +1680,6 @@ with pkgs;
   inherit (callPackages ../data/fonts/arphic {})
     arphic-ukai arphic-uming;
 
-  asciinema-agg = callPackage ../tools/misc/asciinema-agg {
-    inherit (darwin.apple_sdk.frameworks) Security;
-  };
-
   asymptote = libsForQt5.callPackage ../tools/graphics/asymptote { };
 
   atomicparsley = callPackage ../tools/video/atomicparsley {
@@ -2330,17 +2326,7 @@ with pkgs;
 
   electronplayer = callPackage ../applications/video/electronplayer/electronplayer.nix { };
 
-  element-desktop = callPackage ../applications/networking/instant-messengers/element/element-desktop.nix {
-    inherit (darwin.apple_sdk.frameworks) Security AppKit CoreServices;
-  };
-  element-desktop-wayland = writeScriptBin "element-desktop" ''
-    #!/bin/sh
-    NIXOS_OZONE_WL=1 exec ${element-desktop}/bin/element-desktop "$@"
-  '';
-
-  element-web-unwrapped = callPackage ../applications/networking/instant-messengers/element/element-web.nix { };
-
-  element-web = callPackage ../applications/networking/instant-messengers/element/element-web-wrapper.nix {
+  element-web = callPackage ../by-name/el/element-web/package.nix {
     conf = config.element-web.conf or { };
   };
 
@@ -18990,9 +18976,7 @@ with pkgs;
 
   compressDrvWeb = callPackage ../build-support/compress-drv/web.nix { };
 
-  duti = callPackage ../os-specific/darwin/duti {
-    inherit (darwin.apple_sdk.frameworks) ApplicationServices;
-  };
+  duti = callPackage ../os-specific/darwin/duti { };
 
   dnstracer = callPackage ../tools/networking/dnstracer {
     inherit (darwin) libresolv;
