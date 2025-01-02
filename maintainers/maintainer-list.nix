@@ -2112,6 +2112,11 @@
     github = "AtilaSaraiva";
     githubId = 29521461;
   };
+  atinba = {
+    name = "Atin Bainada";
+    github = "atinba";
+    githubId = 61903527;
+  };
   atkinschang = {
     email = "atkinschang+nixpkgs@gmail.com";
     github = "AtkinsChang";
@@ -6848,6 +6853,12 @@
     github = "eureka-cpu";
     githubId = 57543709;
     name = "Chris O'Brien";
+  };
+  euxane = {
+    name = "euxane";
+    email = "r9uhdi.nixpkgs@euxane.net";
+    github = "pacien";
+    githubId = 1449319;
   };
   evalexpr = {
     name = "Jonathan Wilkins";
@@ -16654,12 +16665,6 @@
     github = "Pablo1107";
     githubId = 17091659;
     name = "Pablo Andres Dealbera";
-  };
-  pacien = {
-    email = "b4gx3q.nixpkgs@pacien.net";
-    github = "pacien";
-    githubId = 1449319;
-    name = "Pacien Tran-Girard";
   };
   pacman99 = {
     email = "pachum99@gmail.com";
