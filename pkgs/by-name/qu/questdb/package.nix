@@ -8,11 +8,11 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "questdb";
-  version = "8.1.2";
+  version = "8.2.2";
 
   src = fetchurl {
     url = "https://github.com/questdb/questdb/releases/download/${finalAttrs.version}/questdb-${finalAttrs.version}-no-jre-bin.tar.gz";
-    hash = "sha256-oFhr/lBsg3e7vUiNQXwjBTF6GAjBYym4+YBoA/2Lsag=";
+    hash = "sha256-Lz3AbOGwPqTV2gbacaphMB9YXIuuMNd82sb1dXR777A=";
   };
 
   nativeBuildInputs = [
@@ -24,6 +24,8 @@ stdenv.mkDerivation (finalAttrs: {
 
     mkdir -p $out/bin $out/share/java
     cp questdb.sh $out/bin
+    cp env.sh $out/bin
+    cp print-hello.sh $out/bin
     cp questdb.jar $out/share/java
 
     ln -s $out/share/java/questdb.jar $out/bin
