@@ -3322,6 +3322,12 @@
     githubId = 32319131;
     name = "Brett L";
   };
+  bubblepipe = {
+    email = "bubblepipe42@gmail.com";
+    github = "bubblepipe";
+    githubId = 30717258;
+    name = "bubblepipe";
+  };
   buckley310 = {
     email = "sean.bck@gmail.com";
     matrix = "@buckley310:matrix.org";
@@ -6524,6 +6530,11 @@
     github = "Emantor";
     githubId = 934284;
     name = "Rouven Czerwinski";
+  };
+  EmanuelM153 = {
+    name = "Emanuel";
+    github = "EmanuelM153";
+    githubId = 134736553;
   };
   emattiza = {
     email = "nix@mattiza.dev";
