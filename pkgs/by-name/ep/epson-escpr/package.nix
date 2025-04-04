@@ -1,10 +1,19 @@
-{ lib, stdenv, fetchurl, cups, rpm, cpio }:
+{
+  lib,
+  stdenv,
+  fetchurl,
+  cups,
+  rpm,
+  cpio
+}:
 
 let
   fullname = "epson-inkjet-printer-escpr";
-in stdenv.mkDerivation rec {
-  pname = "epson-escpr";
   version = "1.8.6";
+in
+stdenv.mkDerivation {
+  pname = "epson-escpr";
+  inherit version;
 
   src = fetchurl {
     # To find new versions, visit
