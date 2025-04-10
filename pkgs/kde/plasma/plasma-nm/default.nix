@@ -6,13 +6,13 @@
   mobile-broadband-provider-info,
   openconnect,
   openvpn,
-  strongswan
+  strongswan,
 }:
 mkKdeDerivation {
   pname = "plasma-nm";
 
   patches = [
-    (replaceVars ./000-binary-path.patch {
+    (replaceVars ./0000-binary-path.patch {
       inherit openvpn strongswan;
     })
   ];
