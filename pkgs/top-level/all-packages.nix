@@ -13268,8 +13268,6 @@ with pkgs;
 
   michabo = libsForQt5.callPackage ../applications/misc/michabo { };
 
-  midori = wrapFirefox midori-unwrapped { };
-
   miniaudicle = qt6Packages.callPackage ../applications/audio/miniaudicle { };
 
   minitube = libsForQt5.callPackage ../applications/video/minitube { };
@@ -16298,6 +16296,8 @@ with pkgs;
   mailcore2 = callPackage ../development/libraries/mailcore2 {
     icu = icu71;
   };
+
+  meilisearch_1_11 = callPackage ../by-name/me/meilisearch/package.nix { version = "1.11.3"; };
 
   mongocxx = callPackage ../development/libraries/mongocxx/default.nix { };
 
