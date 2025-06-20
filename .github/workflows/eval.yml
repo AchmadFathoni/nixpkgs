@@ -1,24 +1,10 @@
 name: Eval
 
 on:
-  pull_request:
-    paths:
-      - .github/workflows/eval.yml
-      - .github/workflows/reviewers.yml # needs eval results from the same event type
-  pull_request_target:
-  push:
-    # Keep this synced with ci/request-reviews/dev-branches.txt
-    branches:
-      - master
-      - staging
-      - release-*
-      - staging-*
-      - haskell-updates
-      - python-updates
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+  workflow_call:
+    secrets:
+      OWNER_APP_PRIVATE_KEY:
+        required: false
 
 permissions: {}
 
@@ -28,7 +14,6 @@ defaults:
 
 jobs:
   prepare:
-    name: Prepare
     runs-on: ubuntu-24.04-arm
     outputs:
       mergedSha: ${{ steps.get-merge-commit.outputs.mergedSha }}
@@ -49,14 +34,14 @@ jobs:
         run: |
           echo "systems=$(jq -c <ci/supportedSystems.json)" >> "$GITHUB_OUTPUT"
 
-  outpaths:
-    name: Outpaths
+  eval:
     runs-on: ubuntu-24.04-arm
-    needs: [ prepare ]
+    needs: [prepare]
     strategy:
       fail-fast: false
       matrix:
         system: ${{ fromJSON(needs.prepare.outputs.systems) }}
+    name: ${{ matrix.system }}
     steps:
       - name: Enable swap
         run: |
@@ -109,12 +94,12 @@ jobs:
               run_id = (await github.rest.actions.listWorkflowRuns({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                workflow_id: 'eval.yml',
+                workflow_id: 'push.yml',
                 event: 'push',
                 head_sha: targetSha
               })).data.workflow_runs[0].id
             } catch {
-              throw new Error(`Could not find an eval.yml workflow run for ${targetSha}.`)
+              throw new Error(`Could not find an push.yml workflow run for ${targetSha}.`)
             }
 
             core.setOutput('targetRunId', run_id)
@@ -161,9 +146,8 @@ jobs:
           path: diff/*
 
   compare:
-    name: Comparison
     runs-on: ubuntu-24.04-arm
-    needs: [ prepare, outpaths ]
+    needs: [prepare, eval]
     if: needs.prepare.outputs.targetSha
     permissions:
       issues: write # needed to create *new* labels
@@ -217,46 +201,6 @@ jobs:
           name: comparison
           path: comparison/*
 
-      - name: Labelling pull request
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        with:
-          script: |
-            const { readFile } = require('node:fs/promises')
-
-            const pr = {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number
-            }
-
-            // Get all currently set labels that we manage
-            const before =
-              (await github.paginate(github.rest.issues.listLabelsOnIssue, pr))
-              .map(({ name }) => name)
-              .filter(name => name.startsWith('10.rebuild') || name == '11.by: package-maintainer')
-
-            // And the labels that should be there
-            const after = JSON.parse(await readFile('comparison/changed-paths.json', 'utf-8')).labels
-
-            // Remove the ones not needed anymore
-            await Promise.all(
-              before.filter(name => !after.includes(name))
-              .map(name => github.rest.issues.removeLabel({
-                ...pr,
-                name
-              }))
-            )
-
-            // And add the ones that aren't set already
-            const added = after.filter(name => !before.includes(name))
-            if (added.length > 0) {
-              await github.rest.issues.addLabels({
-                ...pr,
-                labels: added
-              })
-            }
-
       - name: Add eval summary to commit statuses
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
@@ -289,14 +233,45 @@ jobs:
               target_url
             })
 
+  labels:
+    name: Labels
+    needs: [compare]
+    uses: ./.github/workflows/labels.yml
+    permissions:
+      issues: write
+      pull-requests: write
+
   reviewers:
     name: Reviewers
     # No dependency on "compare", so that it can start at the same time.
     # We only wait for the "comparison" artifact to be available, which makes the start-to-finish time
     # for the eval workflow considerably faster.
-    needs: [ prepare, outpaths ]
+    needs: [prepare, eval]
     if: needs.prepare.outputs.targetSha
     uses: ./.github/workflows/reviewers.yml
-    secrets: inherit
-    with:
-      caller: ${{ github.workflow }}
+    secrets:
+      OWNER_APP_PRIVATE_KEY: ${{ secrets.OWNER_APP_PRIVATE_KEY }}
+
+  misc:
+    if: ${{ github.event_name != 'push' }}
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          sparse-checkout: .github/actions
+      - name: Check if the PR can be merged and checkout the merge commit
+        uses: ./.github/actions/get-merge-commit
+        with:
+          merged-as-untrusted: true
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@17fe5fb4a23ad6cbbe47d6b3f359611ad276644c # v31
+        with:
+          extra_nix_config: sandbox = true
+
+      - name: Ensure flake outputs on all systems still evaluate
+        run: nix flake check --all-systems --no-build ./untrusted
+
+      - name: Query nixpkgs with aliases enabled to check for basic syntax errors
+        run: |
+          time nix-env -I ./untrusted -f ./untrusted -qa '*' --option restrict-eval true --option allow-import-from-derivation false >/dev/null
