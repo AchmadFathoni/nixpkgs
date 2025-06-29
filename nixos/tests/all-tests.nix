@@ -491,6 +491,10 @@ in
     imports = [ ./firefox.nix ];
     _module.args.firefoxPackage = pkgs.firefox-esr-128;
   };
+  firefox-esr-140 = runTest {
+    imports = [ ./firefox.nix ];
+    _module.args.firefoxPackage = pkgs.firefox-esr-140;
+  };
   firefoxpwa = handleTest ./firefoxpwa.nix { };
   firejail = handleTest ./firejail.nix { };
   firewall = handleTest ./firewall.nix { nftables = false; };
@@ -974,6 +978,7 @@ in
   ollama-cuda = runTestOn [ "x86_64-linux" "aarch64-linux" ] ./ollama-cuda.nix;
   ollama-rocm = runTestOn [ "x86_64-linux" "aarch64-linux" ] ./ollama-rocm.nix;
   ombi = handleTest ./ombi.nix { };
+  omnom = runTest ./omnom.nix;
   openarena = handleTest ./openarena.nix { };
   openbao = runTest ./openbao.nix;
   openldap = handleTest ./openldap.nix { };

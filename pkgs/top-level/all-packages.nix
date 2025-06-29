@@ -3057,7 +3057,7 @@ with pkgs;
     garage_0_9
     garage_0_8_7
     garage_0_9_4
-    garage_1_1_0
+    garage_1_2_0
     garage_1_x
     ;
 
@@ -4398,6 +4398,12 @@ with pkgs;
 
   rss2email = callPackage ../applications/networking/feedreaders/rss2email {
     pythonPackages = python3Packages;
+  };
+
+  rucio = callPackage ../by-name/ru/rucio/package.nix {
+    # Pinned to python 3.12 while python313Packages.future does not evaluate and
+    # until https://github.com/CZ-NIC/pyoidc/issues/649 is resolved
+    python3Packages = python312Packages;
   };
 
   rubocop = rubyPackages.rubocop;
@@ -7397,6 +7403,8 @@ with pkgs;
   flex = callPackage ../development/tools/parsing/flex { };
 
   m4 = gnum4;
+
+  gn_2233 = callPackage ../by-name/gn/gn/2233.nix { };
 
   gnumake = callPackage ../development/tools/build-managers/gnumake { };
   gradle-packages = import ../development/tools/build-managers/gradle {
@@ -10465,15 +10473,10 @@ with pkgs;
 
   jetty = jetty_12;
 
-  kanidm_1_4 = callPackage ../by-name/ka/kanidm/1_4.nix { kanidm = kanidm_1_4; };
   kanidm_1_5 = callPackage ../by-name/ka/kanidm/1_5.nix { kanidm = kanidm_1_5; };
   kanidm_1_6 = callPackage ../by-name/ka/kanidm/1_6.nix { kanidm = kanidm_1_6; };
 
   kanidmWithSecretProvisioning = kanidmWithSecretProvisioning_1_6;
-
-  kanidmWithSecretProvisioning_1_4 = callPackage ../by-name/ka/kanidm/1_4.nix {
-    enableSecretProvisioning = true;
-  };
 
   kanidmWithSecretProvisioning_1_5 = callPackage ../by-name/ka/kanidm/1_5.nix {
     enableSecretProvisioning = true;
@@ -10716,10 +10719,6 @@ with pkgs;
 
   mssql_jdbc = callPackage ../servers/sql/mssql/jdbc { };
   jtds_jdbc = callPackage ../servers/sql/mssql/jdbc/jtds.nix { };
-
-  miniflux = callPackage ../by-name/mi/miniflux/package.nix {
-    buildGoModule = buildGo123Module;
-  };
 
   inherit (callPackage ../servers/mir { })
     mir
@@ -12497,6 +12496,18 @@ with pkgs;
           buildMozillaMach
           ;
       };
+  firefox-esr-140-unwrapped =
+    import ../applications/networking/browsers/firefox/packages/firefox-esr-140.nix
+      {
+        inherit
+          stdenv
+          lib
+          callPackage
+          fetchurl
+          nixosTests
+          buildMozillaMach
+          ;
+      };
   firefox-esr-unwrapped = firefox-esr-128-unwrapped;
 
   firefox = wrapFirefox firefox-unwrapped { };
@@ -12506,6 +12517,11 @@ with pkgs;
   firefox-mobile = callPackage ../applications/networking/browsers/firefox/mobile-config.nix { };
 
   firefox-esr-128 = wrapFirefox firefox-esr-128-unwrapped {
+    nameSuffix = "-esr";
+    wmClass = "firefox-esr";
+    icon = "firefox-esr";
+  };
+  firefox-esr-140 = wrapFirefox firefox-esr-140-unwrapped {
     nameSuffix = "-esr";
     wmClass = "firefox-esr";
     icon = "firefox-esr";
