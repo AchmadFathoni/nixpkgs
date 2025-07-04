@@ -1232,10 +1232,6 @@ with pkgs;
     stdenv = clangStdenv;
   };
 
-  breitbandmessung = callPackage ../applications/networking/breitbandmessung {
-    electron = electron_34;
-  };
-
   ### APPLICATIONS/VERSION-MANAGEMENT
 
   git = callPackage ../applications/version-management/git {
@@ -13960,10 +13956,6 @@ with pkgs;
     backend = "wayland";
   };
 
-  rstudio = callPackage ../applications/editors/rstudio {
-    jdk = jdk8;
-  };
-
   rstudio-server = rstudio.override { server = true; };
 
   rsync = callPackage ../applications/networking/sync/rsync (config.rsync or { });
@@ -14553,7 +14545,7 @@ with pkgs;
 
   webcord = callPackage ../by-name/we/webcord/package.nix { electron = electron_36; };
 
-  webcord-vencord = callPackage ../by-name/we/webcord-vencord/package.nix { electron = electron_34; };
+  webcord-vencord = callPackage ../by-name/we/webcord-vencord/package.nix { electron = electron_36; };
 
   webmacs = libsForQt5.callPackage ../applications/networking/browsers/webmacs {
     stdenv = if stdenv.cc.isClang then gccStdenv else stdenv;
@@ -14589,7 +14581,7 @@ with pkgs;
   wgnord = callPackage ../applications/networking/wgnord/default.nix { };
 
   whalebird = callPackage ../applications/misc/whalebird {
-    electron = electron_34;
+    electron = electron_36;
   };
 
   inherit (windowmaker) dockapps;
