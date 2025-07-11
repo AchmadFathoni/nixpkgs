@@ -1075,8 +1075,6 @@ with pkgs;
 
   auditwheel = with python3Packages; toPythonApplication auditwheel;
 
-  bikeshed = python3Packages.callPackage ../applications/misc/bikeshed { };
-
   davinci-resolve-studio = callPackage ../by-name/da/davinci-resolve/package.nix {
     studioVariant = true;
   };
@@ -1893,10 +1891,6 @@ with pkgs;
   apprise = with python3Packages; toPythonApplication apprise;
 
   asmrepl = callPackage ../development/interpreters/asmrepl { };
-
-  atlas = callPackage ../by-name/at/atlas/package.nix {
-    buildGoModule = buildGo123Module;
-  };
 
   avahi = callPackage ../development/libraries/avahi { };
 
@@ -3044,8 +3038,6 @@ with pkgs;
   uniscribe = callPackage ../tools/text/uniscribe { };
 
   gandi-cli = python3Packages.callPackage ../tools/networking/gandi-cli { };
-
-  gaphor = python3Packages.callPackage ../tools/misc/gaphor { };
 
   inherit (callPackages ../tools/filesystems/garage { })
     garage
@@ -6957,6 +6949,7 @@ with pkgs;
     electron_34-bin
     electron_35-bin
     electron_36-bin
+    electron_37-bin
     ;
 
   inherit (callPackages ../development/tools/electron/chromedriver { })
@@ -6964,14 +6957,11 @@ with pkgs;
     electron-chromedriver_34
     electron-chromedriver_35
     electron-chromedriver_36
+    electron-chromedriver_37
     ;
 
   electron_33 = electron_33-bin;
-  electron_34 =
-    if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_34 then
-      electron-source.electron_34
-    else
-      electron_34-bin;
+  electron_34 = electron_34-bin;
   electron_35 =
     if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_35 then
       electron-source.electron_35
@@ -6982,6 +6972,11 @@ with pkgs;
       electron-source.electron_36
     else
       electron_36-bin;
+  electron_37 =
+    if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_37 then
+      electron-source.electron_37
+    else
+      electron_37-bin;
   electron = electron_35;
   electron-bin = electron_35-bin;
   electron-chromedriver = electron-chromedriver_35;
@@ -13831,8 +13826,6 @@ with pkgs;
   qsynth = libsForQt5.callPackage ../applications/audio/qsynth { };
 
   qtbitcointrader = libsForQt5.callPackage ../applications/misc/qtbitcointrader { };
-
-  qtchan = libsForQt5.callPackage ../applications/networking/browsers/qtchan { };
 
   qtemu = libsForQt5.callPackage ../applications/virtualization/qtemu { };
 
