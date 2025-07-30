@@ -18,7 +18,7 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "onedrive";
-  version = "2.5.5";
+  version = "2.5.6";
 
   src = fetchFromGitHub {
     owner = "abraunegg";
