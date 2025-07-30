@@ -11,7 +11,6 @@
   sqlite,
   stdenv,
   systemd,
-  dbus,
   testers,
   # Boolean flags
   withSystemd ? lib.meta.availableOn stdenv.hostPlatform systemd,
@@ -19,13 +18,13 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "onedrive";
-  version = "2.5.6";
+  version = "2.5.5";
 
   src = fetchFromGitHub {
     owner = "abraunegg";
     repo = "onedrive";
     rev = "v${finalAttrs.version}";
-    hash = "sha256-AFaz1RkrtsdTZfaWobdcADbzsAhbdCzJPkQX6Pa7hN8=";
+    hash = "sha256-SoTkphmxWVAeSfqO7Vqm8bdPAP1hK57zFNR6N5elEOM=";
   };
 
   outputs = [
@@ -45,8 +44,8 @@ stdenv.mkDerivation (finalAttrs: {
     curl
     libnotify
     sqlite
-    dbus
-  ] ++ lib.optionals withSystemd [ systemd ];
+  ]
+  ++ lib.optionals withSystemd [ systemd ];
 
   configureFlags = [
     (lib.enableFeature true "notifications")
