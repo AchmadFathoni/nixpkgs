@@ -9454,6 +9454,11 @@
     githubId = 28863828;
     name = "guserav";
   };
+  guttermonk = {
+    github = "guttermonk";
+    githubId = 4753752;
+    name = "guttermonk";
+  };
   guyonvarch = {
     email = "joris@guyonvarch.me";
     github = "guyonvarch";
@@ -9743,6 +9748,12 @@
     github = "hehongbo";
     githubId = 665472;
     matrix = "@hehongbo:matrix.org";
+  };
+  heichro = {
+    github = "heichro";
+    githubId = 76887148;
+    keys = [ { fingerprint = "BBA7 9E8E 17FE 9C3F BFEA  61E8 30D0 186F 4E19 7E48"; } ];
+    name = "heichro";
   };
   heijligen = {
     email = "src@posteo.de";
@@ -10374,6 +10385,12 @@
     github = "idontgetoutmuch";
     githubId = 1550265;
     name = "Dominic Steinitz";
+  };
+  iedame = {
+    email = "git@ieda.me";
+    github = "iedame";
+    githubId = 60272;
+    name = "Rafael Ieda";
   };
   if-loop69420 = {
     github = "if-loop69420";
@@ -27701,4 +27718,3 @@
   };
   # keep-sorted end
 }
-# Keep the list alphabetically sorted.

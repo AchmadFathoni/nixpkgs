@@ -4534,6 +4534,8 @@ with pkgs;
 
   teamviewer = libsForQt5.callPackage ../applications/networking/remote/teamviewer { };
 
+  buildTeleport = callPackage ../build-support/teleport { };
+
   telepresence = callPackage ../tools/networking/telepresence {
     pythonPackages = python3Packages;
   };
@@ -6044,6 +6046,9 @@ with pkgs;
   rust_1_86 = callPackage ../development/compilers/rust/1_86.nix {
     llvm_19 = llvmPackages_19.libllvm;
   };
+  rust_1_88 = callPackage ../development/compilers/rust/1_88.nix {
+    llvm_20 = llvmPackages_20.libllvm;
+  };
   rust = rust_1_86;
 
   mrustc = callPackage ../development/compilers/mrustc { };
@@ -6053,6 +6058,7 @@ with pkgs;
   };
 
   rustPackages_1_86 = rust_1_86.packages.stable;
+  rustPackages_1_88 = rust_1_88.packages.stable;
   rustPackages = rustPackages_1_86;
 
   inherit (rustPackages)
@@ -6098,6 +6104,7 @@ with pkgs;
     cargo-pgrx_0_12_0_alpha_1
     cargo-pgrx_0_12_5
     cargo-pgrx_0_12_6
+    cargo-pgrx_0_14_1
     ;
   cargo-pgrx = cargo-pgrx_0_12_6;
 
@@ -9543,7 +9550,7 @@ with pkgs;
   redland = librdf_redland; # added 2018-04-25
 
   renovate = callPackage ../by-name/re/renovate/package.nix {
-    nodejs = nodejs_22;
+    nodejs = nodejs_20;
   };
 
   qradiolink = callPackage ../applications/radio/qradiolink {
