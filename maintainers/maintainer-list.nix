@@ -868,6 +868,12 @@
     githubId = 4717906;
     name = "Jakub Skokan";
   };
+  aiyion = {
+    email = "git@aiyionpri.me";
+    github = "AiyionPrime";
+    githubId = 6937725;
+    name = "Jan-Niklas Burfeind";
+  };
   ajaxbits = {
     email = "contact@ajaxbits.com";
     github = "ajaxbits";
@@ -6609,7 +6615,7 @@
     githubId = 22124013;
   };
   drakon64 = {
-    name = "Adam Chance";
+    name = "Evelyn Chance";
     email = "nixpkgs@drakon.cloud";
     github = "drakon64";
     githubId = 6444703;
