@@ -730,6 +730,7 @@ with pkgs;
   fetchFromRepoOrCz = callPackage ../build-support/fetchrepoorcz { };
 
   fetchFromRadicle = callPackage ../build-support/fetchradicle { };
+  fetchRadiclePatch = callPackage ../build-support/fetchradiclepatch { };
 
   fetchgx = callPackage ../build-support/fetchgx { };
 
@@ -6044,6 +6045,9 @@ with pkgs;
   rust_1_88 = callPackage ../development/compilers/rust/1_88.nix {
     llvm_20 = llvmPackages_20.libllvm;
   };
+  rust_1_89 = callPackage ../development/compilers/rust/1_89.nix {
+    llvm_20 = llvmPackages_20.libllvm;
+  };
   rust = rust_1_86;
 
   mrustc = callPackage ../development/compilers/mrustc { };
@@ -6054,6 +6058,7 @@ with pkgs;
 
   rustPackages_1_86 = rust_1_86.packages.stable;
   rustPackages_1_88 = rust_1_88.packages.stable;
+  rustPackages_1_89 = rust_1_89.packages.stable;
   rustPackages = rustPackages_1_86;
 
   inherit (rustPackages)
@@ -6971,11 +6976,7 @@ with pkgs;
 
   electron_33 = electron_33-bin;
   electron_34 = electron_34-bin;
-  electron_35 =
-    if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_35 then
-      electron-source.electron_35
-    else
-      electron_35-bin;
+  electron_35 = electron_35-bin;
   electron_36 =
     if lib.meta.availableOn stdenv.hostPlatform electron-source.electron_36 then
       electron-source.electron_36
