@@ -2428,6 +2428,12 @@
     githubId = 574938;
     name = "Jonathan Glines";
   };
+  auscyber = {
+    email = "ivyp@outlook.com.au";
+    github = "auscyber";
+    name = "Ivy Pierlot";
+    githubId = 12080502;
+  };
   austin-artificial = {
     email = "austin.platt@artificial.io";
     github = "austin-artificial";
@@ -9308,6 +9314,12 @@
     githubId = 2805834;
     name = "Greaka";
     keys = [ { fingerprint = "6275 FB5C C9AC 9D85 FF9E  44C5 EE92 A5CD C367 118C"; } ];
+  };
+  greatnatedev = {
+    email = "Nate@pelmel.net";
+    github = "GreatNateDev";
+    githubId = 99703235;
+    name = "Nate";
   };
   greg = {
     email = "greg.hellings@gmail.com";
