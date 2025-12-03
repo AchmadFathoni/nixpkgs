@@ -2,9 +2,10 @@
   lib,
   buildPythonPackage,
   fetchPypi,
-  pyqt6-webengine,
-  qt6,
-  pyqt6,
+
+  # nativeBuildInputs
+  pyqtwebengine,
+
   # build-system
   setuptools,
 
@@ -68,6 +69,7 @@ buildPythonPackage rec {
 
   patches = [ ./dont-clear-pythonpath.patch ];
 
+  nativeBuildInputs = [ pyqtwebengine.wrapQtAppsHook ];
 
   build-system = [ setuptools ];
 
@@ -75,20 +77,8 @@ buildPythonPackage rec {
     "ipython"
     "python-lsp-server"
   ];
-  pythonRemoveDeps = [ "pyqtwebengine" ];
-
-  nativeBuildInputs = [
-    qt6.wrapQtAppsHook
-  ];
-
-  buildInputs = [
-    qt6.qtbase
-  ];
 
   dependencies = [
-    pyqt6
-    pyqt6-webengine
-    qt6.qtwayland
     aiohttp
     asyncssh
     atomicwrites
@@ -115,6 +105,7 @@ buildPythonPackage rec {
     pylint-venv
     pyls-spyder
     pyopengl
+    pyqtwebengine
     python-lsp-black
     python-lsp-ruff
     python-lsp-server
